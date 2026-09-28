@@ -3,7 +3,7 @@ from core.service import save_product, save_image
 from views.common import header, product_details, notify, saved
 
 def render(store):
-    header("MATERIAL MASTER DATA","物料资料库","维护物料编码、规格、当前库存和补货阈值状态。"); notify(); products=store.read()["products"]
+    header("MATERIAL MASTER","物料资料库","维护物料编码、规格、当前库存和库存阈值与补货状态。"); notify(); products=store.read()["products"]
     query=st.text_input("搜索物料",placeholder="物料名称 / 物料编码"); filtered=[p for p in products if query.casefold() in (p["name"]+p["code"]).casefold()]
     if not filtered: st.info("暂无匹配物料，可在下方新增资料。")
     for product in filtered:
@@ -22,4 +22,5 @@ def render(store):
         try:
             values["image_path"]=save_image(store,image.getvalue()) if image else row.get("image_path",""); save_product(store,values,row.get("id")); saved("物料资料已保存。")
         except ValueError as exc: st.error(str(exc))
+
 

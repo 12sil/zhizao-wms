@@ -7,7 +7,7 @@ from views.common import header, order_table, history_table, product_details
 
 
 def render(store):
-    header("01 / TRACEABILITY", "双向数据查询", "仓库/部门 → 物料 → 出入库流水；物料 → 仓库/部门 → 历史记录。此页面为纯查询。")
+    header("01 / TRACEABILITY", "库存关联查询", "按仓库/部门或物料双向查看全部出入库关联。只读查询，不修改库存。")
     data = store.read()
     keyword = st.text_input("快速检索", placeholder="输入仓库/部门名称、物料名称或物料编码")
     tab_c, tab_p = st.tabs(["👥 从仓库/部门追溯", "📚 从物料反查"])
@@ -76,5 +76,6 @@ def render(store):
                 history_table(order_history(data, {o["id"] for o in orders}))
             with st.expander("查看物料全套资料"):
                 product_details(selected, store)
+
 
 
